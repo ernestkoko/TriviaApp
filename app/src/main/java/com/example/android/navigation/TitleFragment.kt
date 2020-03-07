@@ -21,9 +21,10 @@ class TitleFragment : Fragment() {
         container, false)
 
         // Navigating to other fragment
-        binding.playButton.setOnClickListener (
-                Navigation.createNavigateOnClickListener(R.id.action_titleFragment_to_gameFragment)
-         )
+        binding.playButton.setOnClickListener {v: View ->
+            v.findNavController().navigate(TitleFragmentDirections.actionTitleFragmentToGameFragment())
+        }
+
         // Telling android there is a menu associated with the fragment
         setHasOptionsMenu(true)
 
