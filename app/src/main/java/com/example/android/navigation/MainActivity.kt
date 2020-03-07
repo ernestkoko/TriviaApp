@@ -20,6 +20,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -39,10 +41,21 @@ class MainActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.myNavHostFragment)
         // linking the navController to the actionBar
         NavigationUI.setupActionBarWithNavController(this, navController,drawerLayout)
-        
+
+        // Adding navigation listener
+        navController.addOnDestinationChangedListener{ nc: NavController, nd: NavDestination, args: Bundle? ->
+            //checks if we are at the start destination
+            if (nd.id == nc.graph.startDestination) {
+                //makes drawer accessible at start destination
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            } else {
+                //locks drawer at every other destinations
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
         NavigationUI.setupWithNavController(binding.navView, navController)
 
-        appBarConfig = AppBarConfiguration(navController.graph,drawerLayout)
+      //  appBarConfig = AppBarConfiguration(navController.graph,drawerLayout)
 
     }
 
